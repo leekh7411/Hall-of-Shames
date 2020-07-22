@@ -1,8 +1,8 @@
 # **Hall-of-Shames**
 Failed list
 
-## Any single list about $N$ dices with sum $S$
-
+## Any single list about *N* dices with sum *S*
+```python
     def __any_single_list_about_N_dices_with_sum_S(N,S):
 	    N = N       # number of possible dices
 	    D = 6-1     # maximum of dice
@@ -35,12 +35,13 @@ Failed list
 	    dices += [0] * (N - len(dices))
 	    final_dices = [i+d for i,d in zip(initial_dices, dices)]
     return final_dices, sum(final_dices), "Success"
- 
+``` 
  Run this method...
  
-
+```
     print(__any_single_list_about_N_dices_with_sum_S(N=10, S=59))
-
+```
 Output
-
+```
     ([6, 6, 6, 6, 6, 6, 6, 6, 6, 5], 59, 'Success')
+```
