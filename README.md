@@ -1,5 +1,5 @@
-# **Hall-of-Shames**
-Failed list
+# ***Hall of Shames***
+Failed list :sob::sob::sob:
 
 ## Any single list about *N* dices with sum *S*
 ```python
