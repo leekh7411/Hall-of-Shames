@@ -1,6 +1,164 @@
 # ***Hall of Shames***
 Failed list :sob::sob::sob:
 
+## (SQL) INNER JOIN + GROUP BY + MIN,MAX + other column + Two tables
+Initialize a table for testing..
+```sql
+-- A. Create database and table
+CREATE TABLE LOL_PRO (
+    ID INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    LEAGUE VARCHAR(32) NOT NULL,
+    TEAM VARCHAR(32) NOT NULL,
+    RANK INT NOT NULL
+);
+```
+
+```sql
+-- B. Initialize table data
+INSERT INTO LOL_PRO(LEAGUE, TEAM, RANK) VALUES ("LPL", "Top Esport", 1);
+INSERT INTO LOL_PRO(LEAGUE, TEAM, RANK) VALUES ("LPL", "JD Gaming", 2);
+INSERT INTO LOL_PRO(LEAGUE, TEAM, RANK) VALUES ("LPL", "Invictus Gaming", 3);
+INSERT INTO LOL_PRO(LEAGUE, TEAM, RANK) VALUES ("LPL", "Suning", 4);
+INSERT INTO LOL_PRO(LEAGUE, TEAM, RANK) VALUES ("LPL", "Victory Five", 5);
+
+INSERT INTO LOL_PRO(LEAGUE, TEAM, RANK) VALUES ("LCK", "DRX", 1);
+INSERT INTO LOL_PRO(LEAGUE, TEAM, RANK) VALUES ("LCK", "DAMWON Gaming", 2);
+INSERT INTO LOL_PRO(LEAGUE, TEAM, RANK) VALUES ("LCK", "Gen.G", 3);
+INSERT INTO LOL_PRO(LEAGUE, TEAM, RANK) VALUES ("LCK", "T1", 4);
+INSERT INTO LOL_PRO(LEAGUE, TEAM, RANK) VALUES ("LCK", "Afreeca Freecs", 5);
+
+INSERT INTO LOL_PRO(LEAGUE, TEAM, RANK) VALUES ("LEC", "MAD Lions", 1);
+INSERT INTO LOL_PRO(LEAGUE, TEAM, RANK) VALUES ("LEC", "Rouge", 2);
+INSERT INTO LOL_PRO(LEAGUE, TEAM, RANK) VALUES ("LEC", "Fnatic", 3);
+INSERT INTO LOL_PRO(LEAGUE, TEAM, RANK) VALUES ("LEC", "SK Gaming", 4);
+INSERT INTO LOL_PRO(LEAGUE, TEAM, RANK) VALUES ("LEC", "Excel Exports", 5);
+```
+
+
+```sql
+-- C. Best Rank of each League
+SELECT LEAGUE, MIN(RANK) AS BEST
+FROM LOL_PRO
+GROUP BY LEAGUE;
+```
+
+..output is,
+```sql
++--------+--------+
+| LEAGUE | RANK_1 |
++--------+--------+
+| LCK    |      1 |
+| LEC    |      1 |
+| LPL    |      1 |
++--------+--------+
+```
+
+```sql
+-- D. Worst Rank of each League
+SELECT LEAGUE, MAX(RANK) AS WORST
+FROM LOL_PRO 
+GROUP BY LEAGUE;
+```
+
+..output is,
+```sql
++--------+-------+
+| LEAGUE | WORST |
++--------+-------+
+| LCK    |     5 |
+| LEC    |     5 |
+| LPL    |     5 |
++--------+-------+
+```
+
+```sql
+-- E. Best Rank Team of each League
+SELECT L.LEAGUE, L.TEAM 
+FROM LOL_PRO AS L
+INNER JOIN(
+    SELECT LEAGUE, MIN(RANK) AS BEST_RANK
+    FROM LOL_PRO
+    GROUP BY LEAGUE
+) AS L_BEST
+ON L.LEAGUE = L_BEST.LEAGUE
+WHERE L.RANK = L_BEST.BEST_RANK;
+```
+..output is,
+```sql
++--------+------------+
+| LEAGUE | TEAM       |
++--------+------------+
+| LPL    | Top Esport |
+| LCK    | DRX        |
+| LEC    | MAD Lions  |
++--------+------------+
+```
+
+```sql
+-- F. Worst Rank Team of each League
+SELECT L.LEAGUE, L.TEAM
+FROM LOL_PRO AS L
+INNER JOIN(
+    SELECT LEAGUE, MAX(RANK) AS WORST_RANK
+    FROM LOL_PRO
+    GROUP BY LEAGUE
+) AS L_WORST
+ON L.LEAGUE = L_WORST.LEAGUE
+WHERE L.RANK = L_WORST.WORST_RANK;
+```
+..output is,
+```sql
++--------+----------------+
+| LEAGUE | TEAM           |
++--------+----------------+
+| LPL    | Victory Five   |
+| LCK    | Afreeca Freecs |
+| LEC    | Excel Exports  |
++--------+----------------+
+```
+
+```sql
+-- G. Join two tables
+SELECT BRT.LEAGUE, BRT.TEAM AS "Top ranking", WRT.TEAM AS "Bottom ranking"
+FROM (
+    SELECT L.LEAGUE, L.TEAM 
+    FROM LOL_PRO AS L
+    INNER JOIN(
+        SELECT LEAGUE, MIN(RANK) AS BEST_RANK
+        FROM LOL_PRO
+        GROUP BY LEAGUE
+    ) AS L_BEST
+    ON L.LEAGUE = L_BEST.LEAGUE
+    WHERE L.RANK = L_BEST.BEST_RANK
+) AS BRT
+LEFT JOIN(
+    SELECT L.LEAGUE, L.TEAM
+    FROM LOL_PRO AS L
+    INNER JOIN(
+        SELECT LEAGUE, MAX(RANK) AS WORST_RANK
+        FROM LOL_PRO
+        GROUP BY LEAGUE
+    ) AS L_WORST
+    ON L.LEAGUE = L_WORST.LEAGUE
+    WHERE L.RANK = L_WORST.WORST_RANK
+) AS WRT
+ON BRT.LEAGUE = WRT.LEAGUE
+ORDER BY BRT.LEAGUE;
+```
+
+..output is,
+```sql
++--------+------------+----------------+
+| LEAGUE | TEAM       | TEAM           |
++--------+------------+----------------+
+| LCK    | DRX        | Afreeca Freecs |
+| LEC    | MAD Lions  | Excel Exports  |
+| LPL    | Top Esport | Victory Five   |
++--------+------------+----------------+
+```
+
+
+
 ## Number matching problem
 Described about the problem in the comments of this code
 ```python
