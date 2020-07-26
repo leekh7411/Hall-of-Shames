@@ -1,6 +1,88 @@
 # ***Hall of Shames***
 Failed list :sob::sob::sob:
 
+## Number matching problem
+Described about the problem in the comments of this code
+```python
+import random
+from collections import defaultdict
+
+"""
+Number matching problem
+
+- All integers between 1 to R
+- The numbers chosen should never be duplicated! (R >= N)
+- Target numbers T (size N) -> [t1,t2,t3,...t_n-1, t_n]
+- Chosen numbers C (size N-M) [c1,c2,...,c_n-m-1, c_n-m] with empty numbers (size M) [e1,e2,...,e_m-1,e_m]
+- N > M
+
+- Q. What is the maximum matching count for a given selected numbers?
+- Q. What is the minimum matching count for a given selected numbers?
+
+"""
+def load_random_inputs(R=100,N=10,M=5):
+    assert R > N and N > M
+    numbers = list(range(1,R+1))
+    random.shuffle(numbers)
+    target_numbers = numbers[:N]
+    random.shuffle(numbers)
+    chosen_numbers = numbers[:N-M] + [0] * M
+    return target_numbers, chosen_numbers
+
+"""
+Just count matchings without empty numbers
+"""
+def search_minimum_matching(target_numbers, chosen_numbers):
+    matching_count = 0
+    for c in chosen_numbers:
+        if c in target_numbers:
+            matching_count += 1
+    return matching_count
+
+"""
+Maximum matching is the DFS about the empty numbers using target numbers not chosen 
+"""
+def search_maximum_matching(target_numbers, chosen_numbers, M):
+    matching_count = 0
+    possible_numbers = []
+    for t in target_numbers:
+        if t not in chosen_numbers:
+            possible_numbers.append(t)
+    
+    min_count = search_minimum_matching(target_numbers, chosen_numbers)
+    max_count = min_count + min(len(possible_numbers), M)
+    return max_count
+```
+
+Let's run this code...
+
+```python
+"""
+>> R: 100 / all possible numbers are between 1 to 100
+>> N: 10  / we will choose 10 numbers in R without duplicate
+>> M: 5   / 5 numbers (N-M) are fixed and others (M) are empty 
+"""
+R, N, M = 100, 10, 5
+T, C    = load_random_inputs(R,N,M)
+
+minimum_matchings = search_minimum_matching(T,C)
+maximum_matchings = search_maximum_matching(T,C,M)
+print("> Target numbers : {}".format(T))
+print("> Chosen numbers : {}".format(C))
+print("> Minimum matchs : {}".format(minimum_matchings))
+print("> Maximum matchs : {}".format(maximum_matchings))
+```
+
+
+Output is ...
+
+```python
+> Target numbers : [70, 69, 5, 49, 59, 68, 74, 100, 89, 35]
+> Chosen numbers : [51, 4, 97, 18, 55, 0, 0, 0, 0, 0]
+> Minimum matchs : 0
+> Maximum matchs : 5
+```
+
 ## Any single list about *N* dices with sum *S*
 ```python
 def __any_single_list_about_N_dices_with_sum_S(N,S):
