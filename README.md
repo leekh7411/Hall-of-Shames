@@ -42,8 +42,7 @@ FROM LOL_PRO
 GROUP BY LEAGUE;
 ```
 
-..output is,
-```sql
+```
 +--------+--------+
 | LEAGUE | RANK_1 |
 +--------+--------+
@@ -60,8 +59,7 @@ FROM LOL_PRO
 GROUP BY LEAGUE;
 ```
 
-..output is,
-```sql
+```
 +--------+-------+
 | LEAGUE | WORST |
 +--------+-------+
@@ -83,8 +81,8 @@ INNER JOIN(
 ON L.LEAGUE = L_BEST.LEAGUE
 WHERE L.RANK = L_BEST.BEST_RANK;
 ```
-..output is,
-```sql
+
+```
 +--------+------------+
 | LEAGUE | TEAM       |
 +--------+------------+
@@ -106,8 +104,7 @@ INNER JOIN(
 ON L.LEAGUE = L_WORST.LEAGUE
 WHERE L.RANK = L_WORST.WORST_RANK;
 ```
-..output is,
-```sql
+```
 +--------+----------------+
 | LEAGUE | TEAM           |
 +--------+----------------+
@@ -145,9 +142,7 @@ LEFT JOIN(
 ON BRT.LEAGUE = WRT.LEAGUE
 ORDER BY BRT.LEAGUE;
 ```
-
-..output is,
-```sql
+```
 +--------+------------+----------------+
 | LEAGUE | TEAM       | TEAM           |
 +--------+------------+----------------+
@@ -156,7 +151,6 @@ ORDER BY BRT.LEAGUE;
 | LPL    | Top Esport | Victory Five   |
 +--------+------------+----------------+
 ```
-
 
 
 ## Number matching problem
