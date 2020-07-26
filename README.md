@@ -163,13 +163,13 @@ ON BRT.LEAGUE = WRT.LEAGUE
 ORDER BY BRT.LEAGUE;
 ```
 ```
-+--------+------------+----------------+
-| LEAGUE | TEAM       | TEAM           |
-+--------+------------+----------------+
-| LCK    | DRX        | Afreeca Freecs |
-| LEC    | MAD Lions  | Excel Exports  |
-| LPL    | Top Esport | Victory Five   |
-+--------+------------+----------------+
++--------+-------------+----------------+
+| LEAGUE | Top ranking | Bottom ranking |
++--------+-------------+----------------+
+| LCK    | DRX         | Afreeca Freecs |
+| LEC    | MAD Lions   | Excel Exports  |
+| LPL    | Top Esport  | Victory Five   |
++--------+-------------+----------------+
 ```
 
 
