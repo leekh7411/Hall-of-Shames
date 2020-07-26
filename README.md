@@ -40,7 +40,7 @@ def search_minimum_matching(target_numbers, chosen_numbers):
     return matching_count
 
 """
-Maximum matching is the DFS about the empty numbers using target numbers not chosen 
+Maximum matching is a simple counting with empty numbers using target numbers not chosen 
 """
 def search_maximum_matching(target_numbers, chosen_numbers, M):
     matching_count = 0
@@ -82,6 +82,7 @@ Output is ...
 > Minimum matchs : 0
 > Maximum matchs : 5
 ```
+
 
 ## Any single list about *N* dices with sum *S*
 ```python
